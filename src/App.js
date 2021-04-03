@@ -1,6 +1,7 @@
 import * as React from 'react';
 import FileUploadPage from './components/fileUploadPage/FileUploadPage';
 import LoadingPage from './components/loadingPage/LoadingPage';
+import FileDisplayPage from './components/fileDisplayPage/FileDisplayPage';
 import Notification from './components/notification/Notification';
 
 function App() {
@@ -57,6 +58,10 @@ function App() {
 
       {appStatus === 1 &&
         <LoadingPage />
+      }
+
+      {appStatus === 2 &&
+        <FileDisplayPage />
       }
     </React.Fragment>
   );

@@ -38,6 +38,8 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
 
     const { files } = e.dataTransfer;
 
+    console.log(files);
+
     if (files.length > 1) {
       // handle too many files
       return setFileDropStatus({
@@ -66,6 +68,22 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
         status: 'LIMIT_FILE_SIZE'
       });
     }
+
+    const formData = new FormData();
+
+    formData.append(
+      "image",
+      files[0],
+      files[0].name
+    );
+
+    fetch('http://localhost:8080/image', {
+      method: 'POST',
+
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => console.log(data));
 
     // file is good
     setFileDropStatus({
