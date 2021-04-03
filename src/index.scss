@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: #FAFAFA;
+  font-family: Poppins, Open-Sans, Helvetica, Sans-Serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  position: relative;
+}
+
+.greyed-text {
+  color: #BDBDBD;
+  font-size: .9rem;
+  margin: 0;
+}
+
+.button {
+  font-size: .857rem;
+  line-height: 1rem;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #2F80ED;
+  outline: none;
+  border: none;
+  color: #FFFFFF;
+  padding: .75em 1.2em;
+  cursor: pointer;
+}
