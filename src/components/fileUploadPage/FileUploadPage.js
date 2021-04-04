@@ -4,40 +4,9 @@ import './FileUploadPage.scss';
 
 function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
   const dropRef = React.createRef();
+  const fileInput = React.createRef();
 
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFileDropStatus({
-      error: false,
-      status: 'ACTIVE',
-    });
-  };
-
-  const handleDragIn = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFileDropStatus({
-      error: false,
-      status: 'ACTIVE'
-    });
-  };
-
-  const handleDragOut = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFileDropStatus({
-      error: false,
-      status: 'NONE'
-    });
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const { files } = e.dataTransfer;
-
+  const handleFiles = (files) => {
     if (files.length > 1) {
       // handle too many files
       return setFileDropStatus({
@@ -77,6 +46,43 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
     setFile(files[0]);
   };
 
+  const handleInput = (e) => {
+    handleFiles(e.target.files);
+  };
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFileDropStatus({
+      error: false,
+      status: 'ACTIVE',
+    });
+  };
+
+  const handleDragIn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFileDropStatus({
+      error: false,
+      status: 'ACTIVE'
+    });
+  };
+
+  const handleDragOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFileDropStatus({
+      error: false,
+      status: 'NONE'
+    });
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleFiles(e.dataTransfer.files);
+  };
+
 
   React.useEffect(() => {
     let dropArea = dropRef.current;
@@ -106,16 +112,16 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
             file-drop-area 
             ${fileDropStatus.status === 'ACTIVE' && 'file-drop-area__dragging'}
           `}
-        ref={dropRef}>
+        ref={dropRef}
+        onChange={handleInput}
+      >
         <img src={uploadSVG} alt="" />
         <p className="greyed-text">Drag & Drop your image here</p>
-        <input className="file-drop-input" type="file" id="fileElem" />
+        <input ref={fileInput} className="file-drop-input" type="file" id="fileElem" />
       </label>
       <p className="greyed-text">Or</p>
-      <label htmlFor="fileElem">
-        <button className="button">
-          Select some files
-          </button>
+      <label className="button" htmlFor="fileElem">
+        Select some files
       </label>
     </form>
   );

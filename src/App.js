@@ -31,11 +31,8 @@ function App() {
       token
     );
 
-    fetch('http://localhost:8080/image', {
+    fetch('https://stark-fjord-14897.herokuapp.com/image', {
       method: 'POST',
-      headers: {
-        'X-Forwarded-For': '9.875.5.4'
-      },
       body: formData
     })
       .then(res => res.json())
