@@ -11,6 +11,13 @@ function App() {
     error: false,
     status: 'INACTIVE'
   });
+  const [imgUrl, setImgUrl] = React.useState(null);
+
+  React.useEffect(() => {
+    if (imgUrl) {
+      setAppStatus(2);
+    }
+  }, [imgUrl]);
 
   React.useEffect(() => {
     const errorTimer = setTimeout(() => {
@@ -21,7 +28,7 @@ function App() {
   }, [errorNotifcation]);
 
   React.useEffect(() => {
-    if (fileDropStatus.status === 'SUCCESS') {
+    if (fileDropStatus.status === 'UPLOADING') {
       setAppStatus(1);
     }
 
@@ -53,6 +60,7 @@ function App() {
         <FileUploadPage
           fileDropStatus={fileDropStatus}
           setFileDropStatus={setFileDropStatus}
+          setImgUrl={setImgUrl}
         />
       }
 
@@ -61,7 +69,7 @@ function App() {
       }
 
       {appStatus === 2 &&
-        <FileDisplayPage />
+        <FileDisplayPage imgUrl={imgUrl} />
       }
     </React.Fragment>
   );

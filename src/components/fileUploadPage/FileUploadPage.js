@@ -2,7 +2,7 @@ import * as React from 'react';
 import uploadSVG from '../../image.svg';
 import './FileUploadPage.scss';
 
-function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
+function FileUploadPage({ fileDropStatus, setFileDropStatus, setImgUrl }) {
   const dropRef = React.createRef();
 
   const handleDrag = (e) => {
@@ -38,8 +38,6 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
 
     const { files } = e.dataTransfer;
 
-    console.log(files);
-
     if (files.length > 1) {
       // handle too many files
       return setFileDropStatus({
@@ -69,6 +67,12 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
       });
     }
 
+    // file is good
+    setFileDropStatus({
+      error: false,
+      status: 'UPLOADING'
+    });
+
     const formData = new FormData();
 
     formData.append(
@@ -83,13 +87,9 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus }) {
       body: formData
     })
       .then(res => res.json())
-      .then(data => console.log(data));
-
-    // file is good
-    setFileDropStatus({
-      error: false,
-      status: 'SUCCESS'
-    });
+      .then(data => {
+        setImgUrl(data.url);
+      });
   };
 
 
