@@ -4,8 +4,9 @@
 This is the front end for my image hosting service. You can upload .jpg, .jpeg, .png, and .webp files under 2MB, then you can access and share them via a URL. 
 
 ## Features
-* Requires valid reCaptcha
+* reCaptcha
 * Drag and drop
+* File upload
 
 ## Built With
 * React
