@@ -2,6 +2,7 @@ import * as React from 'react';
 import FileUploadPage from './components/fileUploadPage/FileUploadPage';
 import LoadingPage from './components/loadingPage/LoadingPage';
 import FileDisplayPage from './components/fileDisplayPage/FileDisplayPage';
+import CaptchaPage from './components/captchaPage/CaptchaPage';
 import Notification from './components/notification/Notification';
 
 function App() {
@@ -12,10 +13,38 @@ function App() {
     status: 'INACTIVE'
   });
   const [imgUrl, setImgUrl] = React.useState(null);
+  const [file, setFile] = React.useState(null);
+
+  const handleUpload = token => {
+    setAppStatus(2);
+
+    const formData = new FormData();
+
+    formData.append(
+      'image',
+      file,
+      file.name
+    );
+
+    formData.append(
+      'cToken',
+      token
+    );
+
+    fetch('http://localhost:8080/image', {
+      method: 'POST',
+      headers: {
+        'X-Forwarded-For': '9.875.5.4'
+      },
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => setImgUrl(data.url));
+  };
 
   React.useEffect(() => {
     if (imgUrl) {
-      setAppStatus(2);
+      setAppStatus(3);
     }
   }, [imgUrl]);
 
@@ -28,7 +57,7 @@ function App() {
   }, [errorNotifcation]);
 
   React.useEffect(() => {
-    if (fileDropStatus.status === 'UPLOADING') {
+    if (fileDropStatus.status === 'SUCCESS') {
       setAppStatus(1);
     }
 
@@ -60,17 +89,25 @@ function App() {
         <FileUploadPage
           fileDropStatus={fileDropStatus}
           setFileDropStatus={setFileDropStatus}
-          setImgUrl={setImgUrl}
+          setFile={setFile}
         />
       }
 
       {appStatus === 1 &&
-        <LoadingPage />
+        <CaptchaPage
+          handleUpload={handleUpload}
+        />
       }
 
       {appStatus === 2 &&
+        <LoadingPage />
+      }
+
+      {appStatus === 3 &&
         <FileDisplayPage imgUrl={imgUrl} />
       }
+
+
     </React.Fragment>
   );
 }

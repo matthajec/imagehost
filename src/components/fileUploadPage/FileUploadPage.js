@@ -2,7 +2,7 @@ import * as React from 'react';
 import uploadSVG from '../../image.svg';
 import './FileUploadPage.scss';
 
-function FileUploadPage({ fileDropStatus, setFileDropStatus, setImgUrl }) {
+function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
   const dropRef = React.createRef();
 
   const handleDrag = (e) => {
@@ -70,26 +70,11 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setImgUrl }) {
     // file is good
     setFileDropStatus({
       error: false,
-      status: 'UPLOADING'
+      status: 'SUCCESS'
     });
 
-    const formData = new FormData();
 
-    formData.append(
-      "image",
-      files[0],
-      files[0].name
-    );
-
-    fetch('http://localhost:8080/image', {
-      method: 'POST',
-
-      body: formData
-    })
-      .then(res => res.json())
-      .then(data => {
-        setImgUrl(data.url);
-      });
+    setFile(files[0]);
   };
 
 
