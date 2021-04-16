@@ -31,7 +31,7 @@ function App() {
       token
     );
 
-    const URL = 'https://stark-fjord-14897.herokuapp.com/image'; //http://localhost:8181/image
+    const URL = 'https://imagehost-server.herokuapp.com/image'; //http://localhost:8181/image
     const options = {
       method: 'POST',
       // headers: {
