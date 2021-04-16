@@ -31,10 +31,16 @@ function App() {
       token
     );
 
-    fetch('https://stark-fjord-14897.herokuapp.com/image', {
+    const URL = 'https://stark-fjord-14897.herokuapp.com/image'; //http://localhost:8181/image
+    const options = {
       method: 'POST',
+      // headers: {
+      //   "X-Forwarded-For": "0.0.0.0"
+      // },
       body: formData
-    })
+    };
+
+    fetch(URL, options)
       .then(res => res.json())
       .then(data => setImgUrl(data.url));
   };

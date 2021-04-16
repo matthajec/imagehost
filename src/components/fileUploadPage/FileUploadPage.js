@@ -6,6 +6,12 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
   const dropRef = React.createRef();
   const fileInput = React.createRef();
 
+  let isDraggable = false;
+
+  if ('draggable' in document.createElement('span')) {
+    isDraggable = true;
+  }
+
   const handleFiles = (files) => {
     if (files.length > 1) {
       // handle too many files
@@ -104,13 +110,19 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
   }, [dropRef]);
 
   return (
-    <form className="image-upload-form" encType="multipart/form-data">
+    <form
+      className={`
+        image-upload-form
+        ${!isDraggable && "image-upload-form__unsupported"}
+      `}
+    >
       <h1 className="title">Upload your image</h1>
       <h2 className="subtitle">File should be jpg, jpeg, png, or webp.</h2>
       <label
         className={`
             file-drop-area 
             ${fileDropStatus.status === 'ACTIVE' && 'file-drop-area__dragging'}
+            ${!isDraggable && "file-drop-area__unsupported"}
           `}
         ref={dropRef}
         onChange={handleInput}
@@ -119,9 +131,9 @@ function FileUploadPage({ fileDropStatus, setFileDropStatus, setFile }) {
         <p className="greyed-text">Drag & Drop your image here</p>
         <input ref={fileInput} className="file-drop-input" type="file" id="fileElem" />
       </label>
-      <p className="greyed-text">Or</p>
+      {isDraggable && <p className="greyed-text">Or</p>}
       <label className="button" htmlFor="fileElem">
-        Select some files
+        Select a file
       </label>
     </form>
   );
